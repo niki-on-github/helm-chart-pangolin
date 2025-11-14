@@ -1,0 +1,7 @@
+pangolin:
+  dashboard_url: ""
+  base_domain: ""
+  secret: ""
+  server_admin:
+    email: ""
+    password: ""

@@ -1,0 +1,14 @@
+apiVersion: v2
+name: pangolin
+description: A Helm chart for Pangolin
+type: application
+version: 0.0.0
+appVersion: 0.0.0
+home: https://github.com/christian-deleon/helm-chart-pangolin
+maintainers:
+  - name: Christian De Leon
+keywords:
+  - pangolin
+  - proxy
+  - reverse proxy
+  - tunnel

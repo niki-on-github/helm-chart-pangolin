@@ -12,7 +12,8 @@
 .LSOverride
 
 # Icon must end with two 
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -89,3 +90,4 @@ tags
 
 # Environment Files
 **/*.env
+**/*-dev.yaml
