@@ -97,3 +97,7 @@ values.prod.yaml
 
 # Helm charts directory (when using dependencies)
 charts/
+
+# Generated Helm chart files (published to gh-pages)
+*.tgz
+index.yaml

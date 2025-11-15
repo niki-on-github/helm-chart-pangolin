@@ -1,0 +1,84 @@
+name: Release Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Chart.yaml'
+      - 'Chart.lock'
+      - 'values.yaml'
+      - 'templates/**'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'latest'
+
+      - name: Run helm lint
+        run: helm lint .
+
+      - name: Package chart
+        run: helm package .
+
+      - name: Prepare Helm repository
+        run: |
+          mkdir -p helm-repo
+          git fetch origin gh-pages:gh-pages 2>/dev/null || true
+          if git show-ref --verify --quiet refs/heads/gh-pages; then
+            git show gh-pages:index.yaml > helm-repo/index.yaml 2>/dev/null || true
+            git ls-tree -r --name-only gh-pages | grep '\.tgz$' | while read file; do
+              git show "gh-pages:$file" > "helm-repo/$(basename "$file")" 2>/dev/null || true
+            done
+          fi
+          mv *.tgz helm-repo/ 2>/dev/null || true
+
+      - name: Create Helm repository index
+        run: |
+          cd helm-repo
+          if [ -f index.yaml ]; then
+            helm repo index . --url https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }} --merge index.yaml
+          else
+            helm repo index . --url https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          fi
+          cat index.yaml
+          ls -la
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: helm-repo
+          keep_files: false
+
+      - name: Create Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            *.tgz
+            index.yaml
+          generate_release_notes: true

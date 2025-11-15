@@ -22,50 +22,71 @@ Pangolin consists of three main components:
 
 ## Installation
 
-### 1. Configure Values
+> **Note**: This chart is published to GitHub Pages. Make sure GitHub Pages is enabled in your repository settings (Settings → Pages → Source: GitHub Actions).
 
-Create a custom values file (e.g., `values.prod.yaml`):
-
-```yaml
-pangolin:
-  domain: "pangolin.example.com"
-  email: "admin@example.com"
-  
-  config:
-    server:
-      secret: "your-secure-random-secret-here"
-
-gerbil:
-  service:
-    type: LoadBalancer
-    annotations:
-      # Add cloud provider specific annotations here
-      # Example for AWS:
-      # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-
-storage:
-  config:
-    storageClass: "your-storage-class"
-    size: 5Gi
-  letsencrypt:
-    storageClass: "your-storage-class"
-
-traefik:
-  enabled: true
-  additionalArguments:
-    - "--certificatesresolvers.letsencrypt.acme.email=admin@example.com"
-```
-
-### 2. Install the Chart
+### Add the Helm Repository
 
 ```bash
-helm install pangolin . -f values.prod.yaml
+helm repo add pangolin https://christian-deleon.github.io/helm-chart-pangolin
+helm repo update
 ```
 
-Or for development:
+### Install the Chart
+
+1. **Configure Values**
+
+   Create a custom values file (e.g., `values.prod.yaml`):
+
+   ```yaml
+   pangolin:
+     domain: "pangolin.example.com"
+     email: "admin@example.com"
+     
+     config:
+       server:
+         secret: "your-secure-random-secret-here"
+
+   gerbil:
+     service:
+       type: LoadBalancer
+       annotations:
+         # Add cloud provider specific annotations here
+         # Example for AWS:
+         # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+
+   storage:
+     config:
+       storageClass: "your-storage-class"
+       size: 5Gi
+     letsencrypt:
+       storageClass: "your-storage-class"
+
+   traefik:
+     enabled: true
+     additionalArguments:
+       - "--certificatesresolvers.letsencrypt.acme.email=admin@example.com"
+   ```
+
+2. **Install the Chart**
+
+   ```bash
+   helm install pangolin pangolin/pangolin -f values.prod.yaml --namespace pangolin --create-namespace
+   ```
+
+   Or for development:
+
+   ```bash
+   helm install pangolin pangolin/pangolin -f values.dev.yaml --namespace pangolin --create-namespace
+   ```
+
+### Install from Local Chart
+
+Alternatively, you can install directly from the repository:
 
 ```bash
-helm install pangolin . -f values.dev.yaml
+git clone https://github.com/christian-deleon/helm-chart-pangolin.git
+cd helm-chart-pangolin
+helm install pangolin . -f values.prod.yaml --namespace pangolin --create-namespace
 ```
 
 ## Development with k3d
@@ -95,6 +116,15 @@ For local development and testing, you can use [k3d](https://k3d.io/) to run a l
 
 2. **Install Pangolin:**
 
+   First, add the Helm repository (if not already added):
+
+   ```bash
+   helm repo add pangolin https://christian-deleon.github.io/helm-chart-pangolin
+   helm repo update
+   ```
+
+   Then install using justfile:
+
    ```bash
    just install
    ```
@@ -102,6 +132,18 @@ For local development and testing, you can use [k3d](https://k3d.io/) to run a l
    Or manually:
 
    ```bash
+   helm install pangolin pangolin/pangolin \
+     --namespace pangolin \
+     --create-namespace \
+     --values values.dev.yaml \
+     --kube-context k3d-pangolin
+   ```
+
+   Or install from local chart:
+
+   ```bash
+   git clone https://github.com/christian-deleon/helm-chart-pangolin.git
+   cd helm-chart-pangolin
    helm install pangolin . \
      --namespace pangolin \
      --create-namespace \
@@ -349,13 +391,20 @@ just logs           # View all logs
 ## Upgrading
 
 ```bash
-helm upgrade pangolin . -f values.prod.yaml
+helm repo update
+helm upgrade pangolin pangolin/pangolin -f values.prod.yaml --namespace pangolin
+```
+
+Or if installed from local chart:
+
+```bash
+helm upgrade pangolin . -f values.prod.yaml --namespace pangolin
 ```
 
 ## Uninstalling
 
 ```bash
-helm uninstall pangolin
+helm uninstall pangolin --namespace pangolin
 ```
 
 Note: PersistentVolumeClaims are not automatically deleted. To delete them:
