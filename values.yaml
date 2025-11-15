@@ -1,7 +1,10 @@
 pangolin:
-  dashboard_url: ""
-  base_domain: ""
-  secret: ""
+  dashboard_url: "pangolin.local"
+  base_domain: "pangolin.local"
+  secret: "pangolin"
   server_admin:
-    email: ""
-    password: ""
+    email: "admin@pangolin.local"
+    password: "pangolin"
+
+traefik:
+  enabled: false

@@ -29,6 +29,10 @@ _helm *args:
 
 # Install chart
 install:
+    @echo "Updating dependencies..."
+    helm dependency update {{ path }}
+    @echo
+    @echo "Installing chart..."
     just _helm upgrade \
         --install {{ name }} {{ path }} \
         --create-namespace \
