@@ -2,7 +2,7 @@ apiVersion: v2
 name: pangolin
 description: A Helm chart for Pangolin - Self-hosted tunnel and reverse proxy
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: 1.12.2
 home: https://github.com/christian-deleon/helm-chart-pangolin
 maintainers:

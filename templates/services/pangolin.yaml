@@ -20,6 +20,10 @@ spec:
       targetPort: frontend
       protocol: TCP
       name: frontend
+    - port: 3003
+      targetPort: integration-api
+      protocol: TCP
+      name: integration-api
   selector:
     {{- include "pangolin.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: pangolin

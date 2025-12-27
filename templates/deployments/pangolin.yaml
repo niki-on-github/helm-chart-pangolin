@@ -33,6 +33,9 @@ spec:
             - name: frontend
               containerPort: 3002
               protocol: TCP
+            - name: integration-api
+              containerPort: 3003
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /api/v1/
