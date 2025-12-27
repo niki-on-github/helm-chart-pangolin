@@ -3,7 +3,27 @@ entries:
   pangolin:
   - apiVersion: v2
     appVersion: 1.12.2
-    created: "2025-12-27T19:35:43.624992422Z"
+    created: "2025-12-27T19:51:36.13647718Z"
+    description: A Helm chart for Pangolin - Self-hosted tunnel and reverse proxy
+    digest: 3a3901cfa6f6b0db92869dd7ba18fa891011552fe49bd15c7248f2eaf0bbfa10
+    home: https://github.com/christian-deleon/helm-chart-pangolin
+    keywords:
+    - pangolin
+    - proxy
+    - reverse proxy
+    - tunnel
+    - traefik
+    - wireguard
+    maintainers:
+    - name: Christian De Leon
+    name: pangolin
+    type: application
+    urls:
+    - https://niki-on-github.github.io/helm-chart-pangolin/pangolin-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.12.2
+    created: "2025-12-27T19:51:36.135677341Z"
     description: A Helm chart for Pangolin - Self-hosted tunnel and reverse proxy
     digest: 90f06ed3123b97c5ba6200a9df05b9d4f4f73e8b4be5b0d6d9e519da5f916683
     home: https://github.com/christian-deleon/helm-chart-pangolin
@@ -23,7 +43,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.12.2
-    created: "2025-12-27T19:35:43.624001164Z"
+    created: "2025-12-27T19:51:36.134845663Z"
     description: A Helm chart for Pangolin - Self-hosted tunnel and reverse proxy
     digest: 79b3f56b255dd2fa46a2d351160d6192fd83adc5418cc1ba7cb34a87d2706cec
     home: https://github.com/christian-deleon/helm-chart-pangolin
@@ -41,4 +61,4 @@ entries:
     urls:
     - https://niki-on-github.github.io/helm-chart-pangolin/pangolin-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-27T19:35:43.623020707Z"
+generated: "2025-12-27T19:51:36.133011801Z"
