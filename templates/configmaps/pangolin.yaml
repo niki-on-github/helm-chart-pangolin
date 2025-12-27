@@ -29,6 +29,7 @@ data:
         base_domain: {{ .Values.pangolin.domain | quote }}
     
     server:
+      integration_port: 3003
       secret: {{ .Values.pangolin.config.server.secret | quote }}
       cors:
         origins: ["https://pangolin.{{ .Values.pangolin.domain }}"]
@@ -47,3 +48,4 @@ data:
       disable_signup_without_invite: {{ .Values.pangolin.config.flags.disable_signup_without_invite }}
       disable_user_create_org: {{ .Values.pangolin.config.flags.disable_user_create_org }}
       allow_raw_resources: {{ .Values.pangolin.config.flags.allow_raw_resources }}
+      enable_integration_api: true
